@@ -197,7 +197,7 @@ input[type="checkbox"]:hover {
 
 .slider {
   width: 70%;
-  height: 500px;
+  height: 700px;
   padding: 20px;
   background-color: var(--third-background-color);
   border-radius: var(--main-border-radius);
@@ -207,7 +207,6 @@ input[type="checkbox"]:hover {
 .slider__img {
   background-color: var(--second-background-color);
   width: 100%;
-  height: 90%;
   display: none;
   border-radius: var(--main-border-radius);
   transition: opacity 0.3s ease;
@@ -216,6 +215,35 @@ input[type="checkbox"]:hover {
 .slider__img.active {
   display: block;
   opacity: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.slider__img-command {
+  font-weight: var(--medium-weight);
+  font-size: var(--large-size-desktop);
+}
+
+.slider__img-health {
+  display: flex;
+  gap: 10px;
+}
+
+.sliders__img {
+  width: 100%;
+  padding: 10px;
+}
+
+.slider__img-img {
+  width: 65%;
+  height: auto;
+}
+
+.slider__img-text {
+  width: 25%;
+  word-wrap: break-word;
 }
 
 .arrow {
@@ -253,14 +281,14 @@ input[type="checkbox"]:hover {
 .arrow-left {
   position: absolute;
   left: 10px;
-  top: 10%;
+  top: 5%;
   transform: translateY(-50%);
 }
 
 .arrow-right {
   position: absolute;
   right: 10px;
-  top: 10%;
+  top: 5%;
   transform: translateY(-50%);
 }
 
@@ -283,14 +311,9 @@ input[type="checkbox"]:hover {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-@media (max-width: 1330px) {
-
-    .slider {
-        height: 300px;
-    }
-  }
-
 @media (max-width: 768px) {
+  
+    
     .dataUnloading {
       display: flex;
       flex-direction: column;
