@@ -7,6 +7,7 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
 {
     QFile res;
     QTextStream in(&res);
+    mngr = new QNetworkAccessManager();
     if (request.getParameter("action")=="show")
     {
         QTemporaryFile* file=request.getUploadedFile("file_sprint");
@@ -119,8 +120,9 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
     page.append("<body>");
 
     page.append("<div class=\"navigation\">");
-    page.append("<h1 class=\"navigation__user\"><a href=\"./\"> exit</a></h1>");
-    page.append("<h1 class=\"navigation__user\">user</h1>");
+    page.append("<h1 class=\"navigation__user\"><a href=\"./\"><svg class=\"slider__icon\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">");
+    page.append("<path d=\"M10 16L6 12M6 12L10 8M6 12H18\" stroke=\"black\" stroke-width=\"1.5\" stroke-miterlimit=\"10\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>");
+    page.append("</svg></a></h1>");
     page.append("</div>");
     page.append("<div class=\"container\">");
     page.append("<div class=\"dataUnloading\">");
@@ -147,6 +149,7 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
 
 
     page.append("</div>");*/
+    page.append("<button class=\"form__btn\" id=\"files__btn\">Next level</button>");
     page.append("</form>");
     page.append("<div class=\"slider\">");
     page.append("<div class=\"slider__date\">");
@@ -156,7 +159,7 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
     //Сбор графиков
     if (request.getParameter("action")=="show1")
     {
-        QString str = request.getHeader("sprint1");
+        QString str = request.getHeader("Sprint1");
         page.append(str);
     }
 
