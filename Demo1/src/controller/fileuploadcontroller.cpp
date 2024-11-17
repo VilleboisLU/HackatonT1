@@ -68,6 +68,9 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
     QString str;
     QStringList ids;
     QStringList area;
+    QByteArray dates;
+    QDate dts, dtf;
+    int count = 0;
     res.setFileName("C:/data/sprint.csv");
     if (res.open(QFile::ReadOnly | QFile::Text))
     {
@@ -151,6 +154,26 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
                 page.append("<input type=\"checkbox\" id='sprint"+QByteArray::number(i-1)+"' name=\"Sprint"+QByteArray::number(i-1)+"\" checked/>");
                 page.append("<label for=\"sprint"+QByteArray::number(i-1)+"\">"+spr.at(0)+"</label>");
                 page.append("</div>");
+                QString d = spr.at(2);
+                QStringList d1 = d.split(" ");
+                d1 = d1.at(0).split("-");
+                dts = QDate(d1.at(0).toInt(),d1.at(1).toInt(),d1.at(2).toInt());
+                d = spr.at(3);
+                d1 = d.split(" ");
+                d1 = d1.at(0).split("-");
+                dtf = QDate(d1.at(0).toInt(),d1.at(1).toInt(),d1.at(2).toInt());
+                while (dts<=dtf) {
+                    dates.append("\"");
+                    dates.append(dts.toString());
+                    dts = dts.addDays(1);
+                    dates.append("\"");
+                    if (dts <= dtf)
+                    {
+                        dates.append(",");
+                    }
+                    count++;
+                }
+
             }
             else
             {
@@ -245,16 +268,17 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
     page.append("const rightArrow = document.querySelector('.arrow-right');");
 
     page.append("let currentSlide = 0;");
-    page.append("const totalSlides = slides.length;");
+    page.append("const totalSlides = "+QByteArray::number(count)+";");
+    page.append("let arr = ["+dates+"];");
 
     page.append("function updateDate() {");
     page.append("const dateSpan = document.querySelector('.slider__date .date');");
-    page.append("dateSpan.textContent = currentSlide + 1;");
+    page.append("dateSpan.textContent = arr[currentSlide];");
     page.append("}");
 
     page.append("leftArrow.addEventListener('click', () => {");
     page.append("currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;");
-    page.append(" updateSlide();");
+    page.append("updateSlide();");
     page.append("});");
 
     page.append("rightArrow.addEventListener('click', () => {");
