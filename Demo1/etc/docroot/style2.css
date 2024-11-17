@@ -150,7 +150,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 25%;
+  width: 400px;
   padding: 20px;
   background-color: var(--main-background-input-color);
   color: var(--main-text-input-color);
@@ -173,6 +173,7 @@ input[type="checkbox"] {
   position: relative;
   cursor: pointer;
   transition: all 0.3s ease;
+  margin: 0 10px 0 0;
 }
 
 input[type="checkbox"]:checked {
@@ -284,18 +285,18 @@ input[type="checkbox"]:hover {
 
 @media (max-width: 1330px) {
 
-    .dataUnloading {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
     .slider {
         height: 300px;
     }
   }
 
 @media (max-width: 768px) {
+    .dataUnloading {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
     .container {
       max-width: 90%;
     }
@@ -317,6 +318,10 @@ input[type="checkbox"]:hover {
 
     .menu, .slider {
         padding: 5px;
+    }
+
+    .menu {
+      width: 360px;
     }
     
   }
