@@ -63,7 +63,11 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
 
     QString line;
     QVector<QString> spr;
+    QVector<QString> hist;
+    QVector<QString> dat;
     QString str;
+    QStringList ids;
+    QStringList area;
     res.setFileName("C:/data/sprint.csv");
     if (res.open(QFile::ReadOnly | QFile::Text))
     {
@@ -166,13 +170,44 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
     }
 
     page.append("</div>");
-    /*page.append("<div class=\"menu__command\">");
+    page.append("<div class=\"menu__command\">");
     page.append("<h2 class=\"menu__command-title\">Select command</h2>");
 
     //Сбор команд
+    for (int i=2; i<data.length();i++)
+    {
+        dat = data.at(i);
+        if (area.indexOf(dat.at(1))==-1)
+        {
+            area.append(dat.at(1));
+            if (request.getParameter("action")=="show1")
+            {
+                if (request.getParameter("Command"+QByteArray::number(i-1))=="on")
+                {
+                    page.append("<div>");
+                    page.append("<input type=\"checkbox\" id='command"+QByteArray::number(i-1)+"' name=\"Command"+QByteArray::number(i-1)+"\" checked/>");
+                    page.append("<label for=\"command"+QByteArray::number(i-1)+"\">"+dat.at(1)+"</label>");
+                    page.append("</div>");
+                }
+                else
+                {
+                    page.append("<div>");
+                    page.append("<input type=\"checkbox\" id='command"+QByteArray::number(i-1)+"' name=\"Command"+QByteArray::number(i-1)+"\">");
+                    page.append("<label for=\"command"+QByteArray::number(i-1)+"\">"+dat.at(1)+"</label>");
+                    page.append("</div>");
+                }
+            }
+            else
+            {
+                page.append("<div>");
+                page.append("<input type=\"checkbox\" id='command"+QByteArray::number(i-1)+"' name=\"Command"+QByteArray::number(i-1)+"\">");
+                page.append("<label for=\"command"+QByteArray::number(i-1)+"\">"+dat.at(1)+"</label>");
+                page.append("</div>");
+            }
+        }
+    }
 
-
-    page.append("</div>");*/
+    page.append("</div>");
     page.append("<button class=\"form__btn\" id=\"files__btn\">View</button>");
     page.append("</form>");
     page.append("<div class=\"slider\">");
@@ -181,20 +216,12 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
     page.append("</div>");
 
     //Сбор графиков
+    area.clear();
     if (request.getParameter("action")=="show1")
     {
-        for (int i=2; i<sprint.length(); i++){
-            spr = sprint.at(i);
-            if (request.getParameter("Sprint"+QByteArray::number(i-1))=="on")
-            {
-                QString s = spr.at(4);
-                s.replace("{", "");
-                s.replace("}", "");
-                page.append(s);
-                page.append("<br>");
-            }
-        }
+
     }
+
 
     page.append("<span class=\"arrow arrow-left\">");
     page.append("<svg class=\"slider__icon icon-left\" width=\"11\" height=\"14\" viewBox=\"0 0 11 14\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">");
