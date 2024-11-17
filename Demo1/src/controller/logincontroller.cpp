@@ -68,11 +68,11 @@ void LoginController::service(HttpRequest& request, HttpResponse& response)
         page.append("eyeIcon.innerHTML = closeEye;}");        
         page.append("})");        
         page.append("const validateEmail = (email) = > {");    
-        page.append("const re = / ^ [a - zA - Z0 - 9] + (? : [a - zA - Z0 - 9\ - .] + ) * @[a - zA - Z0 - 9] + (? : -[a - zA - Z0 - 9] + ) * \.[a - zA - Z] {2, }$ / ;");
+        page.append("const re = / ^ [a - zA - Z0 - 9] + (? : [a - zA - Z0 - 9\\ - .] + ) * @[a - zA - Z0 - 9] + (? : -[a - zA - Z0 - 9] + ) * \\.[a - zA - Z] {2, }$ / ;");
         page.append("return re.test(String(email).toLowerCase());");
         page.append("}");    
         page.append("const validatePassword = (password) = > {");    
-        page.append("const re = / ^ (? = .*[a - z])(? = .*[A - Z])(? = .*\d)(? = .*[$_\ - &])[a - zA - Z\d$_\ - &]{8, 64}$ / ;");    
+        page.append("const re = / ^ (? = .*[a - z])(? = .*[A - Z])(? = .*\\d)(? = .*[$_\\ - &])[a - zA - Z\\d$_\\ - &]{8, 64}$ / ;");
         page.append("return password.length >= 8 && re.test(password);");    
         page.append("}");
         page.append("const emailInput = document.querySelector('#email-input');");
