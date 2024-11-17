@@ -65,11 +65,14 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
     QVector<QString> spr;
     QVector<QString> hist;
     QVector<QString> dat;
+    QVector<QVector<QString>> team_data;
     QString str;
     QStringList ids;
     QStringList area;
+    QStringList inf;
     QByteArray dates;
     QDate dts, dtf;
+    QVector<QDate> dats;
     int count = 0;
     res.setFileName("C:/data/sprint.csv");
     if (res.open(QFile::ReadOnly | QFile::Text))
@@ -147,15 +150,19 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
         spr = sprint.at(i);
         if (request.getParameter("action")=="show1")
         {
-
             if (request.getParameter("Sprint"+QByteArray::number(i-1))=="on")
             {
+                if (count != 0){
+                    dates.append(",");
+                }
                 page.append("<div>");
                 page.append("<input type=\"checkbox\" id='sprint"+QByteArray::number(i-1)+"' name=\"Sprint"+QByteArray::number(i-1)+"\" checked/>");
                 page.append("<label for=\"sprint"+QByteArray::number(i-1)+"\">"+spr.at(0)+"</label>");
                 page.append("</div>");
-                QString d = spr.at(2);
-                QStringList d1 = d.split(" ");
+                QString d;
+                QStringList d1;
+                d = spr.at(2);
+                d1 = d.split(" ");
                 d1 = d1.at(0).split("-");
                 dts = QDate(d1.at(0).toInt(),d1.at(1).toInt(),d1.at(2).toInt());
                 d = spr.at(3);
@@ -163,6 +170,7 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
                 d1 = d1.at(0).split("-");
                 dtf = QDate(d1.at(0).toInt(),d1.at(1).toInt(),d1.at(2).toInt());
                 while (dts<=dtf) {
+                    dats.append(dts);
                     dates.append("\"");
                     dates.append(dts.toString());
                     dts = dts.addDays(1);
@@ -173,7 +181,11 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
                     }
                     count++;
                 }
-
+                d = spr.at(4);
+                d = d.replace("{","");
+                d = d.replace("}","");
+                d1 = d.split(",");
+                ids.append(d1);
             }
             else
             {
@@ -200,6 +212,10 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
     for (int i=2; i<data.length();i++)
     {
         dat = data.at(i);
+        if (request.getParameter("Command"+QByteArray::number(i-1))=="on")
+        {
+            team_data.append(dat);
+        }
         if (area.indexOf(dat.at(1))==-1)
         {
             area.append(dat.at(1));
@@ -238,13 +254,127 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
     page.append("<span class=\"date\"></span>");
     page.append("</div>");
 
+    QVector<QVector<QString>> chang;
+    for (int i=0; i<history.length(); i++)
+    {
+        hist = history.at(i);
+        int c=0;
+        for (int j=0; j<chang.length(); j++)
+        {
+            if(hist.at(0) == chang.at(j).at(0)){
+                c++;
+            }
+        }
+        if (c == 0){
+            QVector<QString> l;
+            l.append(hist.at(0));
+            l.append("1");
+        }
+        else
+        {
+            for (int j=0; j<chang.length(); j++)
+            {
+                if (hist.at(0) == chang.at(j).at(0))
+                {
+                    QString s = chang.at(j).at(1);
+                    int l = s.toInt();
+                    l++;
+                    QVector<QString> li;
+                    li.append(chang.at(j).at(0));
+                    li.append(QString(l));
+                    chang.insert(j, li);
+                }
+            }
+        }
+
+    }
+
     //Сбор графиков
     area.clear();
     if (request.getParameter("action")=="show1")
     {
-
+        for (int i=0; i<count; i++)
+        {
+            if (i==0)
+            {
+                page.append("<div class=\"slider__img active\">");
+                for (int j=0; j < team_data.length(); j++)
+                {
+                    QVector<QString> team = team_data.at(j);
+                    QString d;
+                    QStringList d1;
+                    d = team.at(10);
+                    d1 = d.split(" ");
+                    d1 = d1.at(0).split("-");
+                    dts = QDate(d1.at(0).toInt(),d1.at(1).toInt(),d1.at(2).toInt());
+                    if (dats.at(i) == dts and area.indexOf(team.at(1))==-1)
+                    {
+                        area.append(team.at(1));
+                        page.append("<label for="" class=\"slider__img-command\">"+team.at(1)+"</label>");
+                        for (int k=0; k<ids.length(); k++)
+                        {
+                            if (ids.at(k) == team.at(0))
+                            {
+                                QString parant = team.at(12);
+                                for (int t=0; t<history.length(); t++)
+                                {
+                                    hist = history.at(t);
+                                    if(parant == hist.at(0))
+                                    {
+                                        page.append("<p class=\"slider__img-text\">"+hist.at(1)+"</p>");
+                                    }
+                                }
+                            }
+                        }
+                        page.append("<div class=\"slider__img-health\">");
+                        page.append("<p class=\"slider__img-text\"></p>");
+                        page.append("<img src=\"./istockphoto-450233085-612x612.jpg\" class=\"slider__img-img\">");
+                        page.append("</div>");
+                    }
+                }
+                page.append("</div>");
+            }
+            else
+            {
+                page.append("<div class=\"slider__img\">");
+                for (int j=0; j < team_data.length(); j++)
+                {
+                    QVector<QString> team = team_data.at(j);
+                    QString d;
+                    QStringList d1;
+                    d = team.at(10);
+                    d1 = d.split(" ");
+                    d1 = d1.at(0).split("-");
+                    dts = QDate(d1.at(0).toInt(),d1.at(1).toInt(),d1.at(2).toInt());
+                    if (dats.at(i) == dts and area.indexOf(team.at(1))==-1)
+                    {
+                        area.append(team.at(1));
+                        page.append("<label for="" class=\"slider__img-command\">"+team.at(1)+"</label>");
+                        for (int k=0; k<ids.length(); k++)
+                        {
+                            if (ids.at(k) == team.at(0))
+                            {
+                                QString parant = team.at(12);
+                                for (int t=0; t<history.length(); t++)
+                                {
+                                    hist = history.at(t);
+                                    if(parant == hist.at(0))
+                                    {
+                                        page.append("<p class=\"slider__img-text\">"+hist.at(1)+"</p>");
+                                    }
+                                }
+                            }
+                        }
+                        page.append("<div class=\"slider__img-health\">");
+                        page.append("<p class=\"slider__img-text\"></p>");
+                        page.append("<img src=\"./istockphoto-450233085-612x612.jpg\" class=\"slider__img-img\">");
+                        page.append("</div>");
+                    }
+                }
+                page.append("</div>");
+            }
+        }
     }
-
 
     page.append("<span class=\"arrow arrow-left\">");
     page.append("<svg class=\"slider__icon icon-left\" width=\"11\" height=\"14\" viewBox=\"0 0 11 14\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">");
