@@ -1,0 +1,310 @@
+@import url('https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  /* Colors */
+  --main-text-color: #DC143C;
+  --second-text-color: #cccccc;
+  --accent-text-color: #8B0000;
+
+  --main-text-link-color: #990033;
+  --second-text-link-color: #cccccc;
+  --hover-text-link-color: #660022;
+  --active-text-link-color: #cc0055;
+
+  --main-text-input-color: #ffffff;
+  --main-background-input-color: #333333;
+
+  --main-background-color: #121212;
+  --second-background-color: #222222;
+  --third-background-color: #f5f5f5;
+  --accent-background-color: #eacaca;
+
+  --main-text-btn-color: #ffffff;
+  --main-background-btn-color: #DC143C;
+  --hover-background-btn-color: #f70c3b;
+
+  --main-icon-color: #DC143C;
+
+  --main-background-footer-color: #121212;
+
+  /* Font sizes */
+  --main-size-desktop: 16px;
+  --medium-size-desktop: 18px;
+  --large-size-desktop: 24px;
+
+  /* Font weights */
+  --main-weight: 400;
+  --medium-weight: 500;
+  --bold-weight: 700;
+
+  /* Icon size*/
+  --main-icon-size: 25px;
+  --large-icon-size: 42px;
+  --small-icon-size: 20px
+
+  /* Border radius */
+  --main-border-radius: 8px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--main-background-color);
+  color: var(--main-text-color);
+  font-size: var(--main-size-desktop);
+  font-weight: var(--main-weight);
+  font-family: 'Advent Pro', sans-serif;
+  line-height: 1.6;
+}
+
+a, a:link, a:visited {
+  text-decoration: none;
+  color: var(--main-text-link-color);
+}
+
+a:hover {
+  color: var(--hover-text-link-color);
+}
+
+h1 {
+  font-size: var(--large-size-desktop);
+  font-weight: var(--bold-weight);
+  text-transform: uppercase;
+  color: var(--main-text-color);
+}
+
+h2 {
+  font-size: var(--medium-size-desktop);
+  font-weight: var(--medium-weight);
+  color: var(--main-text-color);
+}
+
+button {
+  background-color: var(--main-background-btn-color);
+  color: var(--main-text-btn-color);
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: var(--main-border-radius);
+  font-family: 'Advent Pro', sans-serif;
+  font-weight: var(--medium-weight);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--hover-background-btn-color);
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 80%;
+  padding: 20px;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  margin-bottom: 30px;
+  background-color: var(--second-background-color);
+  border-radius: var(--main-border-radius);
+}
+
+.navigation__user {
+  cursor: pointer;
+  color: var(--second-text-link-color);
+  font-size: 18px;
+  font-weight: var(--medium-weight);
+  transition: color 0.3s ease;
+}
+
+.navigation__user:hover {
+  color: var(--hover-text-link-color);
+}
+
+.dataUnloading {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 25%;
+  padding: 20px;
+  background-color: var(--main-background-input-color);
+  color: var(--main-text-input-color);
+  border-radius: var(--main-border-radius);
+}
+
+.menu__sprint-title, .menu__command-title {
+  margin-bottom: 15px;
+  color: var(--main-text-color);
+}
+
+input[type="checkbox"] {
+  appearance: none; 
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--second-text-color);
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--accent-text-color);
+  border-color: var(--accent-text-color);
+}
+  
+input[type="checkbox"]:checked::after {
+  content: '\2714'; 
+  color: #ffffff; 
+  font-size: 16px;
+  position: absolute;
+  top: 0;
+  left: 4px;
+}
+
+input[type="checkbox"]:hover {
+  border-color: var(--hover-text-link-color);
+}
+  
+
+.slider {
+  width: 70%;
+  height: 500px;
+  padding: 20px;
+  background-color: var(--third-background-color);
+  border-radius: var(--main-border-radius);
+  position: relative;
+}
+
+.slider__img {
+  background-color: var(--second-background-color);
+  width: 100%;
+  height: 90%;
+  display: none;
+  border-radius: var(--main-border-radius);
+  transition: opacity 0.3s ease;
+}
+
+.slider__img.active {
+  display: block;
+  opacity: 1;
+}
+
+.arrow {
+  font-size: 30px;
+  cursor: pointer;
+  user-select: none;
+  color: var(--main-icon-color); 
+  transition: color 0.3s ease;
+  display: inline-block; 
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 10%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.slider__icon{
+  width: var(--main-icon-size);
+  height: var(--main-icon-size);
+}
+
+.icon-left {
+  transform: rotate(180deg);
+}
+
+.slider__icon path {
+  fill: var(--main-icon-color);
+}
+
+.slider__icon path:hover {
+  fill: var(--hover-text-link-color);
+}
+
+.arrow-left {
+  position: absolute;
+  left: 10px;
+  top: 10%;
+  transform: translateY(-50%);
+}
+
+.arrow-right {
+  position: absolute;
+  right: 10px;
+  top: 10%;
+  transform: translateY(-50%);
+}
+
+.slider__date {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: var(--medium-weight);
+  font-size: var(--medium-size-desktop);
+  margin-top: 15px;
+  position: relative;
+  z-index: 10;
+}
+
+.slider__date span {
+  background-color: var(--second-background-color);
+  color: var(--second-text-color);
+  padding: 5px 10px;  
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@media (max-width: 1330px) {
+
+    .dataUnloading {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .slider {
+        height: 300px;
+    }
+  }
+
+@media (max-width: 768px) {
+    .container {
+      max-width: 90%;
+    }
+
+    .menu, .slider {
+        padding: 10px;
+    }
+
+    .slider__date {
+        flex-wrap: wrap;
+    }
+    
+  }
+  
+  @media (max-width: 480px) {
+    h1 {
+      font-size: var(--medium-size);
+    }
+
+    .menu, .slider {
+        padding: 5px;
+    }
+    
+  }

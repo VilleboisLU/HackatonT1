@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  /* Colors */
+  --main-text-color: #DC143C; 
+  --second-text-color: #cccccc; 
+  --accent-text-color: #8B0000; 
+
+  --main-text-link-color: #990033;
+  --hover-text-link-color: #660022;
+  --active-text-link-color: #cc0055;
+
+  --main-text-input-color: #ffffff; 
+  --main-background-input-color: #333333; 
+
+  --main-background-color: #121212; 
+  --second-background-color: #222222; 
+
+  --main-text-btn-color: #cccccc;
+  --main-background-btn-color: #DC143C; 
+  --hover-background-btn-color: #f70c3b; 
+
+  --main-icon-color: #DC143C; 
+
+  --main-background-footer-color: #121212; 
+
+  /* Fonts */
+  --main-font: "Advent Pro", serif;
+
+  /* Fonts size */
+  --main-size-desktop: 16px;
+  --large-size-desktop: 30px;
+  --medium-size-desktop: 20px;
+  --small-size-desktop: 14px;
+
+  /* Fonts weight */
+  --main-weight: 300;
+  --bold-weight: 600;
+  --medium-weight: 400;
+  --light-weight: 100;
+
+
+  /* Icon size*/
+  --main-icon-size: 32px;
+  --large-icon-size: 42px;
+  --small-icon-size: 20px
+
+  /* Border radius */
+  --main-border-radius: 10px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 20px;
+  background-color: var(--main-background-color);
+  color: var(--main-text-color);
+  font-size: var(--main-size-desktop);
+  font-weight: var(--main-weight);
+  font-family: var(--main-font);
+}
+
+a, a:link, a:visited  {
+  text-decoration: none;
+}
+
+a:hover  {
+  text-decoration: none;
+}
+
+h1 {
+  font-size: var(--large-size-desktop);
+}
+
+button {
+    background-color: var(--main-background-btn-color);
+    color: var(--main-text-color);
+    border-color: transparent;
+    padding: 10px 0px;
+    text-align: center;
+    border-radius: var(--main-border-radius);
+    font-family: var(--main-font);
+    font-weight: var(--medium-weight);
+}
+
+
+.container {
+  margin: 0 auto;
+  max-width: 72%;
+}
+
+.form {
+  padding: 40px 0;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 60%;
+  background-color: var(--second-background-color);
+}
+
+.form__icon {
+    width: var(--large-icon-size);
+    height: var(--large-icon-size);
+}
+
+.form__icon path {
+    fill: var(--main-icon-color);
+}
+
+.form__titles{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+}
+
+.form__text{
+  font-weight: var(--bold-weight);
+}
+
+.form__inputs{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 60%;
+}
+
+.form__input {
+  width: 100%;
+  border-radius: var(--main-border-radius);
+  background-color: var(--main-input-color);
+  color: var(--main-text-input-color);
+  padding: 10px;
+}
+
+.password__input {
+  width: 100%;
+  position: relative;
+}
+
+.form__icon-eye {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: var(--small-icon-size);
+  height: var(--small-icon-size);
+}
+
+.form__icon-eye path {
+  fill: var(--main-icon-color);
+}
+
+.form__link{
+  color: var(--main-text-link-color);
+  text-decoration: none;
+  font-size: var(--small-size-desktop);
+  font-weight: var(--medium-weight);
+  transition: all 0.1s ease;
+}
+
+.form__link:hover {
+  color: var(--hover-text-link-color);
+  text-decoration: underline;
+}
+
+.form__link:active {
+  color: var(--active-text-link-color);
+}
+
+.link-register {
+  font-size: var(--medium-size-desktop);
+}
+
+.form__btn {
+  width: 60%;
+  padding: 10px 0px;
+  text-align: center;
+  border-radius: var(--main-border-radius);
+  color: var(--second-text-color);
+  font-size: var(--medium-size-desktop);
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.form__btn:hover {
+  background-color: var(--hover-background-btn-color);
+}
+
+.form__company {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+}
+
+.form__input,
+.form__company select,
+.form__direction select {  /* Apply styles to all input types */
+  width: 100%;
+  border-radius: var(--main-border-radius);
+  background-color: var(--main-background-input-color);
+  color: var(--main-text-input-color);
+  padding: 10px;
+}
+
+@media (max-width: 1330px) {
+
+    .form__company {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+
+@media (max-width: 768px) {
+    .container {
+      max-width: 90%;
+    }
+  
+    .form {
+      padding: 20px 0;
+      max-width: 80%;
+    }
+  
+    .form__input,
+    .form__btn {
+      width: 100%;
+    }
+
+    .form__company {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    h1 {
+      font-size: var(--medium-size);
+    }
+  
+    .form {
+      padding: 5px 0;
+      gap: 5px;
+    }
+  
+    .form__input,
+    .form__btn {
+      padding: 8px 0px;
+    }
+
+    .form__company {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }

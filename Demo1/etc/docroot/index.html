@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Files</title>
+    <link rel="stylesheet" href="style3.css">
+</head>
+<body>
+    <div class="container">
+        <form class="form" action="./fileuploader" method="post" enctype="multipart/form-data">
+            <div class="form__titles">
+                <h1>Add your files</h1>
+            </div>
+            <div class="form__inputs">
+                <input type="hidden" name="action" value="show">
+                <h2>Add sprint</h2>
+                <label for="file-input-sprint" class="form__input-file" id="form__input-sprint">
+                    <span>Drag & Drop your file here, or click to select</span>
+                    <input type="file" id="file-input-sprint" name="file_sprint" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="form__input" multiple />
+                </label>
+                <div id="file-list-sprint" class="form__file-list">
+                    <p>No files selected</p>
+                </div>
+            </div>
+            <div class="form__inputs">
+                <h2>Add history</h2>
+                <label for="file-input-history" class="form__input-file" id="form__input-history">
+                    <span>Drag & Drop your file here, or click to select</span>
+                    <input type="file" id="file-input-history" name="file_history" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="form__input" multiple />
+                </label>
+                <div id="file-list-history" class="form__file-list">
+                    <p>No files selected</p>
+                </div>
+            </div>
+            <div class="form__inputs">
+                <h2>Add data</h2>
+                <label for="file-input-data" class="form__input-file" id="form__input-data">
+                    <span>Drag & Drop your file here, or click to select</span>
+                    <input type="file" id="file-input-data" name="file_data" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="form__input" multiple />
+                </label>
+                <div id="file-list-data" class="form__file-list">
+                    <p>No files selected</p>
+                </div>
+            </div>
+            <button class="form__btn" id="files__btn">Next level</button>
+        </form>
+    </div>
+
+    <script>
+        const fileInputSprint = document.getElementById('file-input-sprint');
+        const fileInputHistory = document.getElementById('file-input-history');
+        const fileInputdata = document.getElementById('file-input-data');
+
+        const inputFileContainerSprint = document.getElementById('form__input-sprint');
+        const inputFileContainerHistory = document.getElementById('form__input-history');
+        const inputFileContainerdata = document.getElementById('form__input-data');
+
+        const fileListContainerSprint = document.getElementById('file-list-sprint');
+        const fileListContainerHistory = document.getElementById('file-list-history');
+        const fileListContainerdata = document.getElementById('file-list-data');
+
+        let selectedFilesSprint = [];
+        let selectedFilesHistory = [];
+        let selectedFilesdata = [];
+
+        fileInputSprint.addEventListener('change', handleFileSelect);
+        fileInputHistory.addEventListener('change', handleFileSelect);
+        fileInputdata.addEventListener('change', handleFileSelect);
+
+        inputFileContainerSprint.addEventListener('dragover', handleDragOver);
+        inputFileContainerHistory.addEventListener('dragover', handleDragOver);
+        inputFileContainerdata.addEventListener('dragover', handleDragOver);
+
+        fileListContainerSprint.addEventListener('drop', handleFileDrop);
+        fileListContainerHistory.addEventListener('drop', handleFileDrop);
+        fileListContainerdata.addEventListener('drop', handleFileDrop);
+
+        function handleFileSelect(event) {
+            const files = event.target.files;
+            const targetId = event.target.id;
+
+            if (files.length > 1) {
+                displayTooManyFilesMessage(event.target, "Too many files selected. Only one file allowed.");
+            } else {
+                if (targetId === 'file-input-sprint') {
+                    addFilesToList(files, 'sprint');
+                } else if (targetId === 'file-input-history') {
+                    addFilesToList(files, 'history');
+                } else if (targetId === 'file-input-data') {
+                    addFilesToList(files, 'data');
+                }
+            }
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+        }
+
+        function handleFileDrop(event) {
+            event.preventDefault();
+            const files = event.dataTransfer.files;
+            const targetId = event.target.id;
+
+            if (files.length > 1) {
+                displayTooManyFilesMessage(event.target, "Too many files selected. Only one file allowed.");
+            } else {
+                if (targetId === 'file-list-sprint') {
+                    addFilesToList(files, 'sprint');
+                } else if (targetId === 'file-list-history') {
+                    addFilesToList(files, 'history');
+                } else if (targetId === 'file-list-data') {
+                    addFilesToList(files, 'data');
+                }
+            }
+        }
+
+        function displayTooManyFilesMessage(target, message) {
+            let fileListContainer;
+            // Определяем контейнер в зависимости от того, какой инпут был использован
+            if (target === fileInputSprint || target.closest('#file-list-sprint')) {
+                fileListContainer = fileListContainerSprint;
+            } else if (target === fileInputHistory || target.closest('#file-list-history')) {
+                fileListContainer = fileListContainerHistory;
+            } else if (target === fileInputdata || target.closest('#file-list-data')) {
+                fileListContainer = fileListContainerdata;
+            }
+
+            if (fileListContainer) {
+                fileListContainer.innerHTML = `<p>${message}</p>`;
+            } else {
+                console.error('File list container not found!');
+            }
+        }
+
+        function addFilesToList(files, type) {
+            let selectedFiles;
+            let fileListContainer;
+
+            if (type === 'sprint') {
+                selectedFiles = selectedFilesSprint;
+                fileListContainer = fileListContainerSprint;
+            } else if (type === 'history') {
+                selectedFiles = selectedFilesHistory;
+                fileListContainer = fileListContainerHistory;
+            } else if (type === 'data') {
+                selectedFiles = selectedFilesdata;
+                fileListContainer = fileListContainerdata;
+            }
+
+            // Если уже есть файл, заменяем его
+            if (selectedFiles.length > 0) {
+                selectedFiles[0] = files[0]; // заменяем первый файл
+            } else {
+                selectedFiles.push(files[0]);
+            }
+
+            displayFiles(selectedFiles, fileListContainer);
+        }
+
+        function displayFiles(selectedFiles, fileListContainer) {
+            fileListContainer.innerHTML = '';
+
+            if (selectedFiles.length === 1) {
+                selectedFiles.forEach((file, index) => {
+                    const fileItem = document.createElement('div');
+                    fileItem.classList.add('file__item');
+                    fileItem.innerHTML = `
+                        <p>${file.name}</p>
+                        <button type="button" id="file__remove-${index}-${fileListContainer.id}" class="file__remove">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_934_10)">
+                                    <path d="M15.8539 12.854L10.9999 8.00003L15.8539 3.14603C15.9469 3.05188 15.9991 2.92487 15.9991 2.79253C15.9991 2.66019 15.9469 2.53318 15.8539 2.43903L13.5609 0.146027C13.4671 0.0522915 13.34 -0.000366211 13.2074 -0.000366211C13.0748 -0.000366211 12.9477 0.0522915 12.8539 0.146027L7.9999 5.00003L3.1459 0.146027C3.05214 0.0522915 2.92499 -0.000366211 2.7924 -0.000366211C2.65982 -0.000366211 2.53267 0.0522915 2.4389 0.146027L0.145905 2.43903C0.0521694 2.53279 -0.000488281 2.65994 -0.000488281 2.79253C-0.000488281 2.92511 0.0521694 3.05226 0.145905 3.14603L4.99991 8.00003L0.145905 12.854C0.0521694 12.9478 -0.000488281 13.0749 -0.000488281 13.2075C-0.000488281 13.3401 0.0521694 13.4673 0.145905 13.561L2.4389 15.854C2.53267 15.9478 2.65982 16.0004 2.7924 16.0004C2.92499 16.0004 3.05214 15.9478 3.1459 15.854L7.9999 11L12.8539 15.854C12.9477 15.9478 13.0748 16.0004 13.2074 16.0004C13.34 16.0004 13.4671 15.9478 13.5609 15.854L15.8539 13.561C15.9476 13.4673 16.0003 13.3401 16.0003 13.2075C16.0003 13.0749 15.9476 12.9478 15.8539 12.854Z" fill="black"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_934_10">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </button>
+                    `;
+
+                    fileListContainer.appendChild(fileItem);
+                    const fileRemoveBtn = document.querySelector(`#file__remove-${index}-${fileListContainer.id}`);
+
+                    fileRemoveBtn.addEventListener('click', () => {
+                        removeFile(index, selectedFiles, fileListContainer);
+                    });
+                });
+            } else {
+                fileListContainer.innerHTML = '<p>No files selected</p>';
+            }
+        }
+
+        function removeFile(index, selectedFiles, fileListContainer) {
+            selectedFiles.splice(index, 1);
+            displayFiles(selectedFiles, fileListContainer);
+            fileListContainer.value = '';
+        }
+    </script>
+</body>
+</html>
