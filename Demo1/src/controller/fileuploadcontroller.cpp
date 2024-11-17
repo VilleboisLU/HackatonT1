@@ -119,7 +119,7 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
     page.append("<body>");
 
     page.append("<div class=\"navigation\">");
-    page.append("<h1 class=\"navigation__user\" action=\"./\">exit</h1>");
+    page.append("<h1 class=\"navigation__user\"><a href=\"./\"> exit</a></h1>");
     page.append("<h1 class=\"navigation__user\">user</h1>");
     page.append("</div>");
     page.append("<div class=\"container\">");
