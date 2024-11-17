@@ -63,6 +63,7 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
 
     QString line;
     QVector<QString> spr;
+    QString str;
     res.setFileName("C:/data/sprint.csv");
     if (res.open(QFile::ReadOnly | QFile::Text))
     {
@@ -120,11 +121,13 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
     page.append("<body>");
 
     page.append("<div class=\"navigation\">");
-    page.append("<h1 class=\"navigation__user\"><a href=\"./\"><svg class=\"slider__icon\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">");
+    page.append("<a class=\"navigation__user\">");
+    page.append("<svg class=\"navigation__icon\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">");
     page.append("<path d=\"M10 16L6 12M6 12L10 8M6 12H18\" stroke=\"black\" stroke-width=\"1.5\" stroke-miterlimit=\"10\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>");
-    page.append("</svg></a></h1>");
+    page.append("</svg>");
+    page.append("</a>");
     page.append("</div>");
-    page.append("<div class=\"container\">");
+    page.append("<div>");
     page.append("<div class=\"dataUnloading\">");
     page.append("<form class=\"menu\" method=\"post\">");
     page.append("<div class=\"menu__sprint\">");
@@ -135,10 +138,31 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
     for (int i=2; i<sprint.length();i++)
     {
         spr = sprint.at(i);
-        page.append("<div>");
-        page.append("<input type=\"checkbox\" id='sprint"+QByteArray::number(i-1)+"' name=\"Sprint"+QByteArray::number(i-1)+"\">");
-        page.append("<label for=\"sprint"+QByteArray::number(i-1)+"\">"+spr.at(0)+"</label>");
-        page.append("</div>");
+        if (request.getParameter("action")=="show1")
+        {
+
+            if (request.getParameter("Sprint"+QByteArray::number(i-1))=="on")
+            {
+                page.append("<div>");
+                page.append("<input type=\"checkbox\" id='sprint"+QByteArray::number(i-1)+"' name=\"Sprint"+QByteArray::number(i-1)+"\" checked/>");
+                page.append("<label for=\"sprint"+QByteArray::number(i-1)+"\">"+spr.at(0)+"</label>");
+                page.append("</div>");
+            }
+            else
+            {
+                page.append("<div>");
+                page.append("<input type=\"checkbox\" id='sprint"+QByteArray::number(i-1)+"' name=\"Sprint"+QByteArray::number(i-1)+"\">");
+                page.append("<label for=\"sprint"+QByteArray::number(i-1)+"\">"+spr.at(0)+"</label>");
+                page.append("</div>");
+            }
+        }
+        else
+        {
+            page.append("<div>");
+            page.append("<input type=\"checkbox\" id='sprint"+QByteArray::number(i-1)+"' name=\"Sprint"+QByteArray::number(i-1)+"\">");
+            page.append("<label for=\"sprint"+QByteArray::number(i-1)+"\">"+spr.at(0)+"</label>");
+            page.append("</div>");
+        }
     }
 
     page.append("</div>");
@@ -149,7 +173,7 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
 
 
     page.append("</div>");*/
-    page.append("<button class=\"form__btn\" id=\"files__btn\">Next level</button>");
+    page.append("<button class=\"form__btn\" id=\"files__btn\">View</button>");
     page.append("</form>");
     page.append("<div class=\"slider\">");
     page.append("<div class=\"slider__date\">");
@@ -159,8 +183,17 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
     //Сбор графиков
     if (request.getParameter("action")=="show1")
     {
-        QString str = request.getHeader("Sprint1");
-        page.append(str);
+        for (int i=2; i<sprint.length(); i++){
+            spr = sprint.at(i);
+            if (request.getParameter("Sprint"+QByteArray::number(i-1))=="on")
+            {
+                QString s = spr.at(4);
+                s.replace("{", "");
+                s.replace("}", "");
+                page.append(s);
+                page.append("<br>");
+            }
+        }
     }
 
     page.append("<span class=\"arrow arrow-left\">");
