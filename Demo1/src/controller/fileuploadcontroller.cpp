@@ -131,7 +131,7 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
     page.append("<body>");
 
     page.append("<div class=\"navigation\">");
-    page.append("<a class=\"navigation__user\">");
+    page.append("<a class=\"navigation__user\" href=\"/\">");
     page.append("<svg class=\"navigation__icon\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">");
     page.append("<path d=\"M10 16L6 12M6 12L10 8M6 12H18\" stroke=\"black\" stroke-width=\"1.5\" stroke-miterlimit=\"10\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>");
     page.append("</svg>");
@@ -321,7 +321,7 @@ void FileUploadController::service(HttpRequest& request, HttpResponse& response)
                                     hist = history.at(t);
                                     if(parant == hist.at(0))
                                     {
-                                        page.append("<p class=\"slider__img-text\">"+hist.at(1)+"</p>");
+                                        page.append("<p class=\"slider__img-text\">"+hist.at(0)+"</p>");
                                     }
                                 }
                             }
